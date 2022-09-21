@@ -74,3 +74,21 @@ delete from customers where customer_name = 'Johan Sebastian';
 -- Delete data from products table
 delete from products where name = 'Ikan Kembung';
 delete from products where id = 3;
+
+-- Inner join customers and orders table
+select orders.id, orders.customer_id, customers.customer_name, order_date, total
+from orders 
+inner join customers 
+on orders.customer_id = customers.id;
+
+-- Inner join products and orders table
+select orders.id, orders.customer_id, products."name" , orders.order_date , total
+from orders
+inner join products
+on orders.product_id  = products.id;
+
+-- Inner join customers, products and orders table
+select orders.id, customers.customer_name, products."name" as product_name , orders.order_date , total
+from orders
+inner join products on orders.product_id  = products.id
+inner join customers on orders.customer_id = customers.id ;
