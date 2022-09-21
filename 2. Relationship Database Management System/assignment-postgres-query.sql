@@ -63,14 +63,14 @@ update orders set customer_id = 1 where id = 3; -- execute this to clear out for
 update orders set order_date = now() where id = 4;
 update orders set total = 5000 where id = 5;
 
+-- Delete data from orders table
+delete from orders where id = 2;
+delete from orders where total = 5000;
+
 -- Delete data from customers table
 delete from customers where id = 2;
 delete from customers where customer_name = 'Johan Sebastian';
 
 -- Delete data from products table
-delete from products where name = 'Ikan Tuna';
+delete from products where name = 'Ikan Kembung';
 delete from products where id = 3;
-
--- Delete data from orders table
-delete from orders where id = 2;
-delete from orders where total = 5000;
