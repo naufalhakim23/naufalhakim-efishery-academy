@@ -205,6 +205,12 @@ func main() {
 	fmt.Println(fruits_3[1:])  // Output [grape banana melon papaya]
 	fmt.Println(fruits_3[:3])  // Output [apple grape banana]
 
+	// Pointer
+	var numberA int = 4
+	var numberB *int = &numberA
+	fmt.Println(numberA) // Output 4
+	fmt.Println(numberB) // Output memory address
+
 	// Defer
 	defer fmt.Println("Pembelajaran sudah berakhir")
 	fmt.Println("Pembelajaran sudah dimulai")
