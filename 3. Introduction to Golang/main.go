@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"intro-golang/library"
+)
 
 // Easier variable declaration outside function scope (global variable)
 var (
@@ -9,8 +12,8 @@ var (
 	// Language is the programming language
 	Language = "Go"
 	// Message is a message
-	longer_message = `My name is "John Wick" and I'm a hitman, 
-	I'm a professional 
+	longer_message = `My name is "John Wick" and I'm a hitman,
+	I'm a professional
 	killer`
 )
 
@@ -211,6 +214,9 @@ func main() {
 	fmt.Println(numberA) // Output 4
 	fmt.Println(numberB) // Output memory address
 
+	// Importing package
+	library.SayHello()
+	library.SayGoodBye()
 	// Defer
 	defer fmt.Println("Pembelajaran sudah berakhir")
 	fmt.Println("Pembelajaran sudah dimulai")
