@@ -18,4 +18,9 @@ func main() {
 	fmt.Println(modules.GetGoodsFromPrice(
 		10000, // value price
 	))
+
+	// Assignment 2
+	fmt.Println()
+	modules.Aggregator()
+
 }
