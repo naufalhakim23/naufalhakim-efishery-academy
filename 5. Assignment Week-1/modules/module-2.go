@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type Desc struct {
+type Description struct {
 	Description string `json:"description"`
 }
 
@@ -17,13 +17,12 @@ type Job struct {
 	WorkFrom   string `json:"work_from"`
 	Department string `json:"department"`
 }
-
 type Aggr struct {
 	Jobs []Job
-	Desc
+	Description
 }
 
-func fetch(url string, d interface{}) error {
+func fetchData(url string, d interface{}) error {
 	var err error
 	var resp *http.Response
 	var b []byte
@@ -36,24 +35,28 @@ func fetch(url string, d interface{}) error {
 	return err
 }
 
-type Cache struct {
+type Caching struct {
 	Aggr
 	IsUsed bool
 }
 
-func (c *Cache) Aggregate() (Aggr, error) {
-	defer CaculateTime(time.Now())
+func CalculateTime(start time.Time) {
+	fmt.Println("dari calculate ", start)
+	fmt.Printf("took %v\n", time.Since(start))
+}
+
+func (c *Caching) Aggregate() (Aggr, error) {
+	defer CalculateTime(time.Now())
 
 	c.IsUsed = !c.IsUsed
-
 	var err error
 	if c.IsUsed {
-		descChan := make(chan Desc)
+		descChan := make(chan Description)
 		descErrChan := make(chan error)
 
-		go func(descChan chan Desc, descErrChan chan error) {
-			var d Desc
-			err := fetch("https://workspace-rho.vercel.app/api/description", &d)
+		go func(descChandescChan chan Description, descErrChan chan error) {
+			var d Description
+			err := fetchData("https://workspace-rho.vercel.app/api/description", &d)
 
 			descChan <- d
 			descErrChan <- err
@@ -63,7 +66,7 @@ func (c *Cache) Aggregate() (Aggr, error) {
 		jobsErrChan := make(chan error)
 		go func(jobsChan chan []Job, jobsErrChan chan error) {
 			var j []Job
-			err := fetch("https://workspace-rho.vercel.app/api/jobs", &j)
+			err := fetchData("https://workspace-rho.vercel.app/api/jobs", &j)
 
 			jobsChan <- j
 			jobsErrChan <- err
@@ -82,39 +85,37 @@ func (c *Cache) Aggregate() (Aggr, error) {
 		}
 
 		c.Aggr = Aggr{
-			Desc: desc,
-			Jobs: jobs,
+			Description: desc,
+			Jobs:        jobs,
 		}
 	}
-
 	return c.Aggr, err
 }
 
-func (c *Cache) AggregateSec() (Aggr, error) {
-	defer CaculateTime(time.Now())
+func (c *Caching) AggregateSec() (Aggr, error) {
+	defer CalculateTime(time.Now())
 
 	c.IsUsed = !c.IsUsed
 
 	var err error
 	if c.IsUsed {
-
-		var d Desc
-		err = fetch("https://workspace-rho.vercel.app/api/description", &d)
+		var d Description
+		err = fetchData("https://workspace-rho.vercel.app/api/description", &d)
 
 		var j []Job
-		err = fetch("https://workspace-rho.vercel.app/api/jobs", &j)
+		err = fetchData("https://workspace-rho.vercel.app/api/jobs", &j)
 
 		c.Aggr = Aggr{
-			Desc: d,
-			Jobs: j,
+			Description: d,
+			Jobs:        j,
 		}
 	}
-
 	return c.Aggr, err
 }
 
+// For checking input time to terminal console (for debugging)
 func Aggregator() {
-	var c Cache
+	var c Caching
 	aggr, err := c.AggregateSec()
 	if err != nil {
 		panic(err)
@@ -136,9 +137,4 @@ func Aggregator() {
 	}
 
 	_ = aggr
-}
-
-func CaculateTime(start time.Time) {
-	fmt.Println("dari calculate ", start)
-	fmt.Printf("took %v\n", time.Since(start))
 }
