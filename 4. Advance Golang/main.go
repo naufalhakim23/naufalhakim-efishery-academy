@@ -3,7 +3,33 @@ package main
 import (
 	libraryFunction "advance-golang/library" // --> import "advance-golang/library" with name libraryFunction
 	"fmt"
+	"math"
+	"sync"
 )
+
+// Method
+type Vertex struct {
+	X, Y float64
+}
+
+func (v Vertex) Abs() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+// or
+
+func Abs(v Vertex) float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+type MyFloat float64
+
+func (f MyFloat) Abs() float64 {
+	if f < 0 {
+		return float64(-f)
+	}
+	return float64(f)
+}
 
 func main() {
 	// Pointer --> Pointer is a variable that stores the memory address of another variable
@@ -22,6 +48,15 @@ func main() {
 
 	// Go Garbage Collection --> Go has automatic garbage collection <-- ga ada di materi
 
+	// Method --> Method is a function that is associated with a type
+	v := Vertex{3, 4}
+	fmt.Println(v.Abs()) // Output 5
+	// or
+	fmt.Println(Abs(v)) // Output 5
+	// or with type non-struct
+	f := MyFloat(-math.Sqrt2)
+	fmt.Println(f.Abs()) // Output 1.4142135623730951
+
 	// Go Global and Private Variable --> Global variable is a variable that can be accessed from anywhere in the program. Private variable is a variable that can only be accessed from the same package
 	println(libraryFunction.ExtractionData(("John Wick")))
 	println(libraryFunction.Substraction(10, 5))
@@ -38,9 +73,26 @@ func main() {
 	hitungLuasKeliling(p)
 
 	// Goroutine --> Go routine is a lightweight thread managed by the Go runtime
+	go func() {
+		for i := 0; i < 10; i++ {
+			fmt.Println("Hello World")
+		}
+	}()
+	var input string
+	fmt.Scanln(&input)
 
 	// Goroutine with WaitGroup --> WaitGroup is a synchronization mechanism that allows you to wait for a collection of goroutines to finish.
-
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		fmt.Println("Hi")
+		wg.Done()
+	}()
+	go func() {
+		fmt.Println("World")
+		wg.Done()
+	}()
+	wg.Wait()
 }
 
 // Go Interface --> Interface is a collection of method signatures that can be implemented by other types.
