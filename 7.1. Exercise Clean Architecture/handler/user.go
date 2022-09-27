@@ -26,3 +26,14 @@ func (handler UserHandler) CreateUser(c echo.Context) error {
 	}
 	return c.JSON(201, user)
 }
+
+func (hanlder UserHandler) GetAllUser(c echo.Context) error {
+	users, err := hanlder.userUsecase.GetAllUser()
+	if err != nil {
+		return c.JSON(500, err)
+	}
+	if len(users) == 0 {
+		return c.JSON(404, "No data found")
+	}
+	return c.JSON(200, users)
+}
