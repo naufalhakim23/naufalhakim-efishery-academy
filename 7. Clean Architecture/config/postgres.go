@@ -1,7 +1,9 @@
 package config
 
 import (
+	"clean-architecture/entity"
 	"fmt"
+	"os"
 
 	_ "github.com/joho/godotenv/autoload"
 	"gorm.io/driver/postgres"
@@ -12,13 +14,13 @@ var DB *gorm.DB
 var err error
 
 func Database() {
-	DB, err = gorm.Open(postgres.Open("host=172.28.48.1 user=postgres password=postgres dbname=efishery-example port=5432 sslmode=disable TimeZone=Asia/Shanghai"), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(os.Getenv("db_url")), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println("Database connected")
 }
 
-// func Migrate() {
-// 	DB.AutoMigrate(&models.User{})
-// }
+func Migrate() {
+	DB.AutoMigrate(&entity.User{})
+}
