@@ -7,6 +7,7 @@ import (
 
 type InterfaceUserUsercase interface {
 	CreateUser(user entity.UserRequest) (entity.User, error)
+	GetAllUser() ([]entity.User, error)
 }
 
 type UserUsecase struct {
@@ -27,7 +28,9 @@ func (usecase UserUsecase) CreateUser(user entity.UserRequest) (entity.UserRespo
 		Password:  user.Password,
 		Phone:     user.Phone,
 	}
+
 	users, err := usecase.userRepository.Store(u)
+
 	if err != nil {
 		return entity.UserResponse{}, err
 	}
@@ -41,4 +44,25 @@ func (usecase UserUsecase) CreateUser(user entity.UserRequest) (entity.UserRespo
 	}
 
 	return userRes, nil
+}
+
+func (usecase UserUsecase) GetAllUser() ([]entity.UserResponse, error) {
+	users, err := usecase.userRepository.FindAll()
+	if err != nil {
+		return nil, err
+	}
+	userRes := []entity.UserResponse{}
+	for _, user := range users {
+		userRes = append(userRes, entity.UserResponse{
+			ID:        user.ID,
+			Username:  user.Username,
+			Email:     user.Email,
+			Phone:     user.Phone,
+			FirstName: user.FirstName,
+			LastName:  user.LastName,
+		})
+	}
+
+	return userRes, nil
+
 }
