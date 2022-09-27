@@ -15,7 +15,7 @@ import (
 
 type Product struct {
 	ID          int    `json:"id"`
-	Name        string `json:"product"`
+	Product     string `json:"product"`
 	Description string `json:"description"`
 }
 
@@ -53,9 +53,18 @@ func UpdateProduct(c echo.Context) error {
 		return err
 	}
 	id, _ := strconv.Atoi(c.Param("id"))
-	product[id].Name = p.Name
+	product[id].Product = p.Product
 	product[id].Description = p.Description
 	return c.JSON(http.StatusOK, product[id])
+}
+
+func UpdateProductPatch(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	p := product[id]
+	if err := c.Bind(p); err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, p)
 }
 func DeleteUser(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
@@ -77,6 +86,7 @@ func main() {
 	e.GET("/api/products/:id", GetProducts)
 	e.DELETE("/api/products/:id", DeleteUser)
 	e.PUT("/api/products/:id", UpdateProduct)
+	e.PATCH("/api/products/:id", UpdateProductPatch)
 
 	// Start Server
 	e.Logger.Fatal(e.Start(":1323"))
