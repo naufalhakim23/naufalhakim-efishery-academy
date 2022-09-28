@@ -11,6 +11,7 @@ type InterfaceUserUsercase interface {
 	CreateUser(user entity.CreateUserRequest) (entity.User, error)
 	GetAllUser() ([]entity.User, error)
 	GetUserByUUID(uuid string) (entity.User, error)
+	UpdateUserByUUID(userRequest entity.UpdateUserRequest, uuid string) (entity.User, error)
 	DeleteUserByUUID(uuid string) error
 }
 
@@ -85,6 +86,40 @@ func (usecase UserUsecase) GetUserByUUID(uuid string) (entity.UserResponse, erro
 	if err != nil {
 		return entity.UserResponse{}, err
 	}
+	userRes := entity.UserResponse{
+		ID:        user.ID,
+		UUID:      user.UUID,
+		Username:  user.Username,
+		Email:     user.Email,
+		Phone:     user.Phone,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+	}
+	return userRes, nil
+}
+
+func (usecase UserUsecase) UpdateUserByUUID(userRequest entity.UpdateUserRequest, uuid string) (entity.UserResponse, error) {
+	user, err := usecase.userRepository.FindByUUID(uuid)
+	if err != nil {
+		return entity.UserResponse{}, err
+	}
+
+	dataUser := entity.User{
+		ID:        user.ID,
+		UUID:      user.UUID,
+		FirstName: userRequest.FirstName,
+		LastName:  userRequest.LastName,
+		Username:  userRequest.Username,
+		Email:     userRequest.Email,
+		Password:  userRequest.Password,
+		Phone:     userRequest.Phone,
+	}
+
+	user, err = usecase.userRepository.UpdateUserByUUID(dataUser)
+	if err != nil {
+		return entity.UserResponse{}, err
+	}
+
 	userRes := entity.UserResponse{
 		ID:        user.ID,
 		UUID:      user.UUID,
