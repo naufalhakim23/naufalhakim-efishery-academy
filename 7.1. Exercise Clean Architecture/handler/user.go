@@ -49,6 +49,18 @@ func (handler UserHandler) GetUserByUUID(c echo.Context) error {
 	return c.JSON(200, users)
 }
 
+func (handler UserHandler) UpdateUserByUUID(c echo.Context) error {
+	req := entity.UpdateUserRequest{}
+	if err := c.Bind(&req); err != nil {
+		return err
+	}
+	user, err := handler.userUsecase.UpdateUserByUUID(req, c.Param("uuid"))
+	if err != nil {
+		return err
+	}
+	return c.JSON(200, user)
+}
+
 func (handler UserHandler) DeleteUserByUUID(c echo.Context) error {
 	err := handler.userUsecase.DeleteUserByUUID(c.Param("uuid"))
 	if err != nil {
