@@ -10,6 +10,7 @@ import (
 type InterfaceUserUsercase interface {
 	CreateUser(user entity.CreateUserRequest) (entity.User, error)
 	GetAllUser() ([]entity.User, error)
+	GetUserByUUID(uuid string) (entity.User, error)
 }
 
 type UserUsecase struct {
@@ -65,6 +66,7 @@ func (usecase UserUsecase) GetAllUser() ([]entity.UserResponse, error) {
 	for _, user := range users {
 		userRes = append(userRes, entity.UserResponse{
 			ID:        user.ID,
+			UUID:      user.UUID,
 			Username:  user.Username,
 			Email:     user.Email,
 			Phone:     user.Phone,
@@ -75,4 +77,21 @@ func (usecase UserUsecase) GetAllUser() ([]entity.UserResponse, error) {
 
 	return userRes, nil
 
+}
+
+func (usecase UserUsecase) GetUserByUUID(uuid string) (entity.UserResponse, error) {
+	user, err := usecase.userRepository.FindByUUID(uuid)
+	if err != nil {
+		return entity.UserResponse{}, err
+	}
+	userRes := entity.UserResponse{
+		ID:        user.ID,
+		UUID:      user.UUID,
+		Username:  user.Username,
+		Email:     user.Email,
+		Phone:     user.Phone,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+	}
+	return userRes, nil
 }
