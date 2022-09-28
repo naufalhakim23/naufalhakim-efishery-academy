@@ -9,4 +9,5 @@ import (
 func Routes(e *echo.Echo, userHandler *handler.UserHandler) {
 	e.POST("/users", userHandler.CreateUser)
 	e.GET("/users", userHandler.GetAllUser)
+	e.GET("/users/:uuid", userHandler.GetUserByUUID)
 }
