@@ -27,12 +27,23 @@ func (handler UserHandler) CreateUser(c echo.Context) error {
 	return c.JSON(201, user)
 }
 
-func (hanlder UserHandler) GetAllUser(c echo.Context) error {
-	users, err := hanlder.userUsecase.GetAllUser()
+func (handler UserHandler) GetAllUser(c echo.Context) error {
+	users, err := handler.userUsecase.GetAllUser()
 	if err != nil {
 		return c.JSON(500, err)
 	}
 	if len(users) == 0 {
+		return c.JSON(404, "No data found")
+	}
+	return c.JSON(200, users)
+}
+
+func (handler UserHandler) GetUserByUUID(c echo.Context) error {
+	users, err := handler.userUsecase.GetUserByUUID(c.Param("uuid"))
+	if err != nil {
+		return c.JSON(500, err)
+	}
+	if users.UUID == "" {
 		return c.JSON(404, "No data found")
 	}
 	return c.JSON(200, users)
