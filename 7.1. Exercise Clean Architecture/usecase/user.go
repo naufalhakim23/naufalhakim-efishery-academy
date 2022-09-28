@@ -3,10 +3,12 @@ package usecase
 import (
 	"exercise-clean-architecture/entity"
 	"exercise-clean-architecture/repository"
+
+	"github.com/google/uuid"
 )
 
 type InterfaceUserUsercase interface {
-	CreateUser(user entity.UserRequest) (entity.User, error)
+	CreateUser(user entity.CreateUserRequest) (entity.User, error)
 	GetAllUser() ([]entity.User, error)
 }
 
@@ -19,8 +21,16 @@ func NewUserUsecase(userRepository repository.InterfaceUserRepository) *UserUsec
 
 }
 
-func (usecase UserUsecase) CreateUser(user entity.UserRequest) (entity.UserResponse, error) {
+func (usecase UserUsecase) CreateUser(user entity.CreateUserRequest) (entity.UserResponse, error) {
+	// passwordHash, err := config.HashPassword(user.Password)
+	// if err != nil {
+	// 	return entity.UserResponse{}, err
+	// }
+	// user.Password = passwordHash
+
+	uuidNew := uuid.New().String()
 	u := entity.User{
+		UUID:      uuidNew,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Username:  user.Username,
@@ -30,12 +40,12 @@ func (usecase UserUsecase) CreateUser(user entity.UserRequest) (entity.UserRespo
 	}
 
 	users, err := usecase.userRepository.Store(u)
-
 	if err != nil {
 		return entity.UserResponse{}, err
 	}
 	userRes := entity.UserResponse{
 		ID:        users.ID,
+		UUID:      users.UUID,
 		Username:  users.Username,
 		Email:     users.Email,
 		Phone:     users.Phone,

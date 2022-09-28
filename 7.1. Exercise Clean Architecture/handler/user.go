@@ -16,7 +16,7 @@ func NewUserHandler(userUsecase *usecase.UserUsecase) *UserHandler {
 }
 
 func (handler UserHandler) CreateUser(c echo.Context) error {
-	req := entity.UserRequest{}
+	req := entity.CreateUserRequest{}
 	if err := c.Bind(&req); err != nil {
 		return err
 	}
