@@ -10,7 +10,7 @@ type InterfaceUserRepository interface {
 	Store(user entity.User) (entity.User, error)
 	FindAll() ([]entity.User, error)
 	FindByUUID(uuid string) (entity.User, error)
-	// UpdateDataByUUID(uuid entity.User) (entity.User, error)
+	UpdateUserByUUID(user entity.User) (entity.User, error)
 	DeleteUserByUUID(uuid string) error
 }
 type UserRepository struct {
@@ -48,13 +48,12 @@ func (r UserRepository) FindByUUID(uuid string) (entity.User, error) {
 }
 
 // Update user data using uuid from database
-// func (r UserRepository) UpdateDataByUUID(uuid entity.User) (entity.User, error) {
-// 	var user entity.User
-// 	if err := r.db.Debug().Where("uuid = ?", uuid).First(&user).Error; err != nil {
-// 		return entity.User{}, err
-// 	}
-// 	return user, nil
-// }
+func (r UserRepository) UpdateUserByUUID(user entity.User) (entity.User, error) {
+	if err := r.db.Debug().Save(&user).Error; err != nil {
+		return entity.User{}, err
+	}
+	return user, nil
+}
 
 // Delete user data using uuid from database
 func (r UserRepository) DeleteUserByUUID(uuid string) error {
