@@ -48,3 +48,11 @@ func (handler UserHandler) GetUserByUUID(c echo.Context) error {
 	}
 	return c.JSON(200, users)
 }
+
+func (handler UserHandler) DeleteUserByUUID(c echo.Context) error {
+	err := handler.userUsecase.DeleteUserByUUID(c.Param("uuid"))
+	if err != nil {
+		return c.JSON(500, err)
+	}
+	return c.JSON(200, "Data has been deleted")
+}

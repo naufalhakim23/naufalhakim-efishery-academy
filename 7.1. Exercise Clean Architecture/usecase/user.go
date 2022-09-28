@@ -11,6 +11,7 @@ type InterfaceUserUsercase interface {
 	CreateUser(user entity.CreateUserRequest) (entity.User, error)
 	GetAllUser() ([]entity.User, error)
 	GetUserByUUID(uuid string) (entity.User, error)
+	DeleteUserByUUID(uuid string) error
 }
 
 type UserUsecase struct {
@@ -94,4 +95,12 @@ func (usecase UserUsecase) GetUserByUUID(uuid string) (entity.UserResponse, erro
 		LastName:  user.LastName,
 	}
 	return userRes, nil
+}
+
+func (usecase UserUsecase) DeleteUserByUUID(uuid string) error {
+	err := usecase.userRepository.DeleteUserByUUID(uuid)
+	if err != nil {
+		return err
+	}
+	return nil
 }
