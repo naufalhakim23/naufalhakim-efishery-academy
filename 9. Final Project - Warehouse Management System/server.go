@@ -23,5 +23,10 @@ func main() {
 	warehouseService := services.NewWarehouseService(warehouseRepository)
 	warehouseHandler := handler.NewWarehouseHandler(warehouseService)
 	routes.Routes(e, warehouseHandler)
+
+	warehouseAddressRepository := repository.NewWarehouseAddressRepository(config.DB)
+	warehouseAddressService := services.NewWarehouseAddressService(warehouseAddressRepository)
+	warehouseAddressHandler := handler.NewWarehouseAddressHandler(warehouseAddressService)
+	routes.RoutesAddress(e, warehouseAddressHandler)
 	e.Logger.Fatal(e.Start(":8080"))
 }
