@@ -36,3 +36,11 @@ func (service WarehouseService) GetAllWarehouse() ([]entity.Warehouse, error) {
 	}
 	return warehouses, nil
 }
+
+func (service WarehouseService) GetWarehouseByID(id int) (entity.Warehouse, error) {
+	warehouse, err := service.warehouseRepository.FindByID(id)
+	if err != nil {
+		return warehouse, err
+	}
+	return warehouse, nil
+}

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 	response "warehouse-management-system-eFishery/entity/responseJson"
 	entity "warehouse-management-system-eFishery/entity/warehouse"
 	"warehouse-management-system-eFishery/services"
@@ -54,5 +55,28 @@ func (handler WarehouseHandler) GetAllWarehouse(c echo.Context) error {
 		Status:  http.StatusOK,
 		Message: "Success to get all list of e-Fishery Warehouses",
 		Data:    warehouses,
+	})
+}
+
+func (handler WarehouseHandler) GetWarehouseByID(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	warehouse, err := handler.service.GetWarehouseByID(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to get warehouse by id",
+			Error:   err.Error(),
+		})
+	}
+	if warehouse.ID == 0 || warehouse.ID != id {
+		return c.JSON(http.StatusNotFound, response.ErrorResponse{
+			Status:  http.StatusNotFound,
+			Message: "No data found",
+		})
+	}
+	return c.JSON(http.StatusOK, response.SuccessResponse{
+		Status:  http.StatusOK,
+		Message: "Success to get warehouse by id",
+		Data:    warehouse,
 	})
 }
