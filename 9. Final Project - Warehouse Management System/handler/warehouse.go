@@ -44,6 +44,12 @@ func (handler WarehouseHandler) GetAllWarehouse(c echo.Context) error {
 			Error:   err.Error(),
 		})
 	}
+	if len(warehouses) == 0 {
+		return c.JSON(http.StatusNotFound, response.ErrorResponse{
+			Status:  http.StatusNotFound,
+			Message: "No data found",
+		})
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to get all list of e-Fishery Warehouses",
