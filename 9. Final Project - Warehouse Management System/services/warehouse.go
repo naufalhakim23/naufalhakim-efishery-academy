@@ -9,9 +9,9 @@ import (
 type InterfaceWarehouseService interface {
 	CreateWarehouse(warehouse entity.Warehouse) (entity.Warehouse, error)
 	GetAllWarehouse() ([]entity.Warehouse, error)
-	GetWarehouseByID(id string) (entity.Warehouse, error)
-	UpdateWarehouse(warehouse entity.Warehouse) (entity.Warehouse, error)
-	DeleteWarehouse(id string) (string, error)
+	GetWarehouseByID(id int) (entity.Warehouse, error)
+	UpdateWarehouse(warehouse entity.Warehouse, id int) (entity.Warehouse, error)
+	DeleteWarehouse(id int) error
 }
 
 type WarehouseService struct {
@@ -72,4 +72,12 @@ func (service WarehouseService) UpdateWarehouse(warehouseReq entity.UpdateWareho
 		WarehouseDesc: warehouse.WarehouseDesc,
 	}
 	return warehouseResponse, nil
+}
+
+func (service WarehouseService) DeleteWarehouse(id int) error {
+	err := service.warehouseRepository.Delete(id)
+	if err != nil {
+		return err
+	}
+	return nil
 }

@@ -11,7 +11,7 @@ type InterfaceWarehouseRepository interface {
 	FindAll() ([]entity.Warehouse, error)
 	FindByID(id int) (entity.Warehouse, error)
 	Update(warehouse entity.Warehouse) (entity.Warehouse, error)
-	Delete(id int) (string, error)
+	Delete(id int) error
 }
 
 type WarehouseRepository struct {
@@ -57,9 +57,9 @@ func (wr WarehouseRepository) Update(warehouse entity.Warehouse) (entity.Warehou
 }
 
 // Delete warehouse data by id from database
-func (wr WarehouseRepository) Delete(id int) (string, error) {
+func (wr WarehouseRepository) Delete(id int) error {
 	if err := wr.db.Where("id = ?", id).Delete(&entity.Warehouse{}).Error; err != nil {
-		return "Error", err
+		return err
 	}
-	return "Success", nil
+	return nil
 }

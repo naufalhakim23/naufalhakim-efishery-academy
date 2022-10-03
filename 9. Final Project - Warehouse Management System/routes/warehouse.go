@@ -11,4 +11,5 @@ func Routes(e *echo.Echo, warehouseHandler *handler.WarehouseHandler) {
 	e.GET("/api/warehouse", warehouseHandler.GetAllWarehouse)
 	e.GET("/api/warehouse/:id", warehouseHandler.GetWarehouseByID)
 	e.PUT("/api/warehouse/:id", warehouseHandler.UpdateWarehouse)
+	e.DELETE("/api/warehouse/:id", warehouseHandler.DeleteWarehouse)
 }

@@ -86,11 +86,26 @@ func (handler WarehouseHandler) UpdateWarehouse(c echo.Context) error {
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Status:  http.StatusBadRequest,
-			Message: "Failed to update warehouse",
+			Message: "Invalid Request Body",
 			Error:   err.Error(),
 		})
 	}
 	id, _ := strconv.Atoi(c.Param("id"))
+	// Searching id bugged this will not be permanent solution need to figure out where is the error
+	w, err := handler.service.GetWarehouseByID(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to get warehouse by id",
+			Error:   err.Error(),
+		})
+	}
+	if w.ID == 0 || w.ID != id {
+		return c.JSON(http.StatusNotFound, response.ErrorResponse{
+			Status:  http.StatusNotFound,
+			Message: "No data found",
+		})
+	}
 	warehouse, err := handler.service.UpdateWarehouse(req, id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
@@ -103,5 +118,27 @@ func (handler WarehouseHandler) UpdateWarehouse(c echo.Context) error {
 		Status:  http.StatusOK,
 		Message: "Success to update warehouse",
 		Data:    warehouse,
+	})
+}
+
+func (handler WarehouseHandler) DeleteWarehouse(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	err := handler.service.DeleteWarehouse(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to delete warehouse",
+			Error:   err.Error(),
+		})
+	}
+	if id == 0 {
+		return c.JSON(http.StatusNotFound, response.ErrorResponse{
+			Status:  http.StatusNotFound,
+			Message: "No data found",
+		})
+	}
+	return c.JSON(http.StatusOK, response.SuccessResponse{
+		Status:  http.StatusOK,
+		Message: "Success to delete warehouse",
 	})
 }
