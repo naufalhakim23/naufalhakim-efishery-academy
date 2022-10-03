@@ -1,7 +1,7 @@
 package entity
 
 type WarehouseRoles struct {
-	Id          int    `gorm:"primaryKey;column:id" json:"id"`
+	ID          int    `gorm:"primaryKey;column:id" json:"id"`
 	Role        string `gorm:"column:role" json:"role"`
 	Description string `gorm:"column:description" json:"description"`
 }
