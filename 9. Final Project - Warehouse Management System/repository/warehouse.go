@@ -51,7 +51,7 @@ func (wr WarehouseRepository) FindByID(id int) (entity.Warehouse, error) {
 // Update warehouse data by id from database
 func (wr WarehouseRepository) Update(warehouse entity.Warehouse) (entity.Warehouse, error) {
 	if err := wr.db.Save(&warehouse).Error; err != nil {
-		return warehouse, err
+		return entity.Warehouse{}, err
 	}
 	return warehouse, nil
 }

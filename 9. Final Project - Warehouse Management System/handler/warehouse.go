@@ -80,3 +80,28 @@ func (handler WarehouseHandler) GetWarehouseByID(c echo.Context) error {
 		Data:    warehouse,
 	})
 }
+
+func (handler WarehouseHandler) UpdateWarehouse(c echo.Context) error {
+	req := entity.UpdateWarehouse{}
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to update warehouse",
+			Error:   err.Error(),
+		})
+	}
+	id, _ := strconv.Atoi(c.Param("id"))
+	warehouse, err := handler.service.UpdateWarehouse(req, id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to update warehouse",
+			Error:   err.Error(),
+		})
+	}
+	return c.JSON(http.StatusOK, response.SuccessResponse{
+		Status:  http.StatusOK,
+		Message: "Success to update warehouse",
+		Data:    warehouse,
+	})
+}

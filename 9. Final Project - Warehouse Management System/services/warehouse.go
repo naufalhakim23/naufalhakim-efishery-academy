@@ -1,6 +1,7 @@
 package services
 
 import (
+	"time"
 	entity "warehouse-management-system-eFishery/entity/warehouse"
 	"warehouse-management-system-eFishery/repository"
 )
@@ -22,7 +23,12 @@ func NewWarehouseService(warehouseRepository repository.InterfaceWarehouseReposi
 }
 
 func (service WarehouseService) CreateWarehouse(warehouse entity.Warehouse) (entity.Warehouse, error) {
-	warehouse, err := service.warehouseRepository.Store(warehouse)
+	w := entity.Warehouse{
+		WarehouseName: warehouse.WarehouseName,
+		WarehouseDesc: warehouse.WarehouseDesc,
+		CreatedAt:     time.Now().Format(time.RFC3339Nano),
+	}
+	warehouse, err := service.warehouseRepository.Store(w)
 	if err != nil {
 		return warehouse, err
 	}
@@ -43,4 +49,27 @@ func (service WarehouseService) GetWarehouseByID(id int) (entity.Warehouse, erro
 		return warehouse, err
 	}
 	return warehouse, nil
+}
+
+func (service WarehouseService) UpdateWarehouse(warehouseReq entity.UpdateWarehouse, id int) (entity.WarehouseResponse, error) {
+	warehouse, err := service.warehouseRepository.FindByID(id)
+	if err != nil {
+		return entity.WarehouseResponse{}, err
+	}
+	warehouseData := entity.Warehouse{
+		ID:            warehouse.ID,
+		WarehouseName: warehouseReq.WarehouseName,
+		WarehouseDesc: warehouseReq.WarehouseDesc,
+		CreatedAt:     warehouse.CreatedAt,
+		UpdatedAt:     time.Now().Format(time.RFC3339Nano),
+	}
+	warehouse, err = service.warehouseRepository.Update(warehouseData)
+	if err != nil {
+		return entity.WarehouseResponse{}, err
+	}
+	warehouseResponse := entity.WarehouseResponse{
+		WarehouseName: warehouse.WarehouseName,
+		WarehouseDesc: warehouse.WarehouseDesc,
+	}
+	return warehouseResponse, nil
 }
