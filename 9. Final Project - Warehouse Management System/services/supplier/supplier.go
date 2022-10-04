@@ -64,6 +64,7 @@ func (service SupplierService) UpdateSupplier(id int, supplierReq entity.UpdateS
 		SupplierDesc: supplierReq.SupplierDesc,
 		Phone:        supplierReq.Phone,
 		Email:        supplierReq.Email,
+		CreateAt:     supplier.CreateAt,
 		UpdateAt:     time.Now().Format(time.RFC3339Nano),
 	}
 	supplier, err = service.supplierRepository.Update(s)
