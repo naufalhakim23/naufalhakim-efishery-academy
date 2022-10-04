@@ -100,12 +100,6 @@ func (handler WarehouseAddressHandler) UpdateWarehouseAddress(c echo.Context) er
 			Error:   err.Error(),
 		})
 	}
-	if warehouseAddress.ID == 0 {
-		return c.JSON(http.StatusNotFound, response.ErrorResponse{
-			Status:  http.StatusNotFound,
-			Message: "No data found",
-		})
-	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to update warehouse address",

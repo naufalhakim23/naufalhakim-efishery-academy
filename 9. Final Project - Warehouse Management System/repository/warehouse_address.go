@@ -67,7 +67,6 @@ func (war WarehouseAddressRepository) FindByID(id int) (entity.WarehouseAddress,
 }
 
 // Update warehouse address data by id from database
-// Function Update still not working
 func (war WarehouseAddressRepository) Update(warehouseAddress entity.WarehouseAddress) (entity.WarehouseAddress, error) {
 	var warehouse []entity.Warehouse
 	if err := war.db.Save(&warehouseAddress).Error; err != nil {

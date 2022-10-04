@@ -144,6 +144,7 @@ func (service WarehouseAddressService) UpdateWarehouseAddress(id int, warehouseR
 		SubDistrict: warehouseReq.SubDistrict,
 		City:        warehouseReq.City,
 		Province:    warehouseReq.Province,
+		Region:      warehouseReq.Region,
 		PostalCode:  warehouseReq.PostalCode,
 		CreatedAt:   warehouseAddress.CreatedAt,
 		UpdatedAt:   time.Now().Format(time.RFC3339Nano),
@@ -152,7 +153,17 @@ func (service WarehouseAddressService) UpdateWarehouseAddress(id int, warehouseR
 	if err != nil {
 		return entity.WarehouseAddressesResponse{}, err
 	}
-	warehouseAddressResponse := entity.WarehouseAddressesResponse{}
+	warehouseAddressResponse := entity.WarehouseAddressesResponse{
+		ID:          warehouseAddress.ID,
+		FullAddress: warehouseAddress.FullAddress,
+		SubDistrict: warehouseAddress.SubDistrict,
+		City:        warehouseAddress.City,
+		Province:    warehouseAddress.Province,
+		Region:      warehouseAddress.Region,
+		PostalCode:  warehouseAddress.PostalCode,
+		CreatedAt:   warehouseAddress.CreatedAt,
+		UpdatedAt:   warehouseAddress.UpdatedAt,
+	}
 	return warehouseAddressResponse, nil
 }
 
