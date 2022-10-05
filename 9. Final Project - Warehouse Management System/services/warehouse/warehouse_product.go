@@ -10,6 +10,7 @@ type InterfaceWarehouseProductService interface {
 	CreateWarehouseProduct(entity.WarehouseProducts) (entity.WarehouseProducts, error)
 	GetAllWarehouseProduct() ([]entity.WarehouseProducts, error)
 	GetWarehouseProductByID(int) (entity.WarehouseProducts, error)
+	GetWarehouseProductByPrice(int, int) ([]entity.WarehouseProducts, error)
 	UpdateWarehouseProduct(id int, warehouseReq entity.UpdateWarehouseProducts) (entity.WarehouseProductsResponse, error)
 	DeleteWarehouseProduct(id int) error
 }
@@ -60,6 +61,14 @@ func (service WarehouseProductService) GetWarehouseProductByID(id int) (entity.W
 	return warehouseProduct, nil
 }
 
+func (service WarehouseProductService) GetWarehouseProductByPrice(minPrice int, maxPrice int) ([]entity.WarehouseProducts, error) {
+	warehouseProduct, err := service.warehouseProductRepository.GetByPrice(minPrice, maxPrice)
+	if err != nil {
+		return warehouseProduct, err
+	}
+	return warehouseProduct, nil
+}
+
 func (service WarehouseProductService) UpdateWarehouseProduct(id int, warehouseReq entity.UpdateWarehouseProducts) (entity.WarehouseProductsResponse, error) {
 	warehouseProduct, err := service.warehouseProductRepository.GetbyID(id)
 	if err != nil {
@@ -84,10 +93,6 @@ func (service WarehouseProductService) UpdateWarehouseProduct(id int, warehouseR
 	}
 
 	warehouseProduct, err = service.warehouseProductRepository.Update(wps)
-	if err != nil {
-		return entity.WarehouseProductsResponse{}, err
-	}
-
 	warehouseProductResponse := entity.WarehouseProductsResponse{
 		// ID:             warehouseProduct.ID,
 		SKU:            warehouseProduct.SKU,
@@ -104,6 +109,10 @@ func (service WarehouseProductService) UpdateWarehouseProduct(id int, warehouseR
 		CreatedAt:      warehouseProduct.CreatedAt,
 		UpdatedAt:      warehouseProduct.UpdatedAt,
 	}
+	if err != nil {
+		return warehouseProductResponse, err
+	}
+
 	return warehouseProductResponse, nil
 
 }

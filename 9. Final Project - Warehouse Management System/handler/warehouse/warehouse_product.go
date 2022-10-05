@@ -75,6 +75,55 @@ func (handler WarehouseProductHandler) GetWarehouseProductByID(c echo.Context) e
 	})
 }
 
+func (handler WarehouseProductHandler) GetWarehouseProductByPrice(c echo.Context) error {
+	minPrice, _ := strconv.Atoi(c.Param("minPrice"))
+	maxPrice, _ := strconv.Atoi(c.Param("maxPrice"))
+	warehouseProduct, err := handler.service.GetWarehouseProductByPrice(minPrice, maxPrice)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to get warehouse product by price",
+			Error:   err.Error(),
+		})
+	}
+	if len(warehouseProduct) == 0 {
+		return c.JSON(http.StatusNotFound, response.ErrorResponse{
+			Status:  http.StatusNotFound,
+			Message: "No data found",
+		})
+	}
+	if minPrice > maxPrice {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Min price must be lower than max price",
+		})
+	}
+	if minPrice < 0 || maxPrice < 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Price must be positive",
+		})
+	}
+	if minPrice == 0 && maxPrice == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Price must be filled",
+		})
+	}
+	if maxPrice == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Max price must be filled",
+		})
+	}
+	return c.JSON(http.StatusOK, response.SuccessResponse{
+		Status:  http.StatusOK,
+		Message: "Success to get warehouse product by price",
+		Data:    warehouseProduct,
+	})
+
+}
+
 func (handler WarehouseProductHandler) UpdateWarehouseProduct(c echo.Context) error {
 	req := entity.UpdateWarehouseProducts{}
 	if err := c.Bind(&req); err != nil {
