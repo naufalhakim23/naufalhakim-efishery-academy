@@ -58,17 +58,29 @@ func (wor WarehouseOrderRepository) FindAll() ([]entity.WarehouseOrders, error) 
 // Find warehouse order data by ID
 func (wor WarehouseOrderRepository) FindByID(id int) (entity.WarehouseOrders, error) {
 	var warehouseOrders entity.WarehouseOrders
+	var warehouse []entity.Warehouse
 	if err := wor.db.Where("id = ?", id).Find(&warehouseOrders).Error; err != nil {
-		return entity.WarehouseOrders{}, err
+		return warehouseOrders, err
 	}
+	if err := wor.db.Where("id = ?", warehouseOrders.WarehouseId).Find(&warehouse).Error; err != nil {
+		return warehouseOrders, err
+	}
+	warehouseOrders.Warehouse = warehouse[0]
 	return warehouseOrders, nil
 }
 
 // Find product status in order
 func (wor WarehouseOrderRepository) FindByProductStatus(productStatus string) ([]entity.WarehouseOrders, error) {
 	var warehouseOrders []entity.WarehouseOrders
+	var warehouse []entity.Warehouse
 	if err := wor.db.Where("product_status = ?", productStatus).Find(&warehouseOrders).Error; err != nil {
 		return warehouseOrders, err
+	}
+	for i := 0; i < len(warehouseOrders); i++ {
+		if err := wor.db.Where("id = ?", warehouseOrders[i].WarehouseId).Find(&warehouse).Error; err != nil {
+			return warehouseOrders, err
+		}
+		warehouseOrders[i].Warehouse = warehouse[0]
 	}
 	return warehouseOrders, nil
 }
@@ -76,8 +88,15 @@ func (wor WarehouseOrderRepository) FindByProductStatus(productStatus string) ([
 // Find warehouse order data by product marking in or out
 func (wor WarehouseOrderRepository) FindByProductMark(productMark string) ([]entity.WarehouseOrders, error) {
 	var warehouseOrders []entity.WarehouseOrders
+	var warehouse []entity.Warehouse
 	if err := wor.db.Where("product_mark = ?", productMark).Find(&warehouseOrders).Error; err != nil {
 		return warehouseOrders, err
+	}
+	for i := 0; i < len(warehouseOrders); i++ {
+		if err := wor.db.Where("id = ?", warehouseOrders[i].WarehouseId).Find(&warehouse).Error; err != nil {
+			return warehouseOrders, err
+		}
+		warehouseOrders[i].Warehouse = warehouse[0]
 	}
 	return warehouseOrders, nil
 }
@@ -87,6 +106,12 @@ func (wor WarehouseOrderRepository) UpdateByID(id int, warehouseOrder entity.War
 	if err := wor.db.Model(&warehouseOrder).Where("id = ?", id).Updates(warehouseOrder).Error; err != nil {
 		return warehouseOrder, err
 	}
+	var warehouse []entity.Warehouse
+	if err := wor.db.Where("id = ?", warehouseOrder.WarehouseId).Find(&warehouse).Error; err != nil {
+		return warehouseOrder, err
+	}
+	warehouseOrder.Warehouse = warehouse[0]
+
 	return warehouseOrder, nil
 }
 
