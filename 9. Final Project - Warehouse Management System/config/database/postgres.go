@@ -27,7 +27,7 @@ func Migrate() {
 	DB.AutoMigrate(&warehouse.WarehouseRoles{})
 	DB.AutoMigrate(&warehouse.WarehouseAuth{})
 	DB.AutoMigrate(&warehouse.Warehouse{})
-	DB.AutoMigrate(&warehouse.WarehouseAddresses{})
+	DB.AutoMigrate(&warehouse.WarehouseAddress{})
 	DB.AutoMigrate(&warehouse.WarehouseOrders{})
 	DB.AutoMigrate(&warehouse.WarehouseProducts{})
 	DB.AutoMigrate(&warehouse.WarehouseCategories{})
