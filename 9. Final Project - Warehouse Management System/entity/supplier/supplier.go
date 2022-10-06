@@ -6,8 +6,8 @@ type Supplier struct {
 	SupplierDesc string `gorm:"column:supplier_desc" json:"supplier_desc"`
 	Phone        string `gorm:"column:phone" json:"phone"`
 	Email        string `gorm:"column:email" json:"email"`
-	CreateAt     string `gorm:"column:create_at" json:"create_at"`
-	UpdateAt     string `gorm:"column:update_at" json:"update_at"`
+	CreatedAt    string `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt    string `gorm:"column:updated_at" json:"updated_at"`
 }
 
 type CreateSupplier struct {
@@ -15,7 +15,7 @@ type CreateSupplier struct {
 	SupplierDesc string `gorm:"column:supplier_desc" json:"supplier_desc"`
 	Phone        string `gorm:"column:phone" json:"phone"`
 	Email        string `gorm:"column:email" json:"email"`
-	CreateAt     string `gorm:"column:create_at" json:"create_at"`
+	CreateAt     string `gorm:"column:created_at" json:"created_at"`
 }
 
 type UpdateSupplier struct {
@@ -23,7 +23,7 @@ type UpdateSupplier struct {
 	SupplierDesc string `gorm:"column:supplier_desc" json:"supplier_desc"`
 	Phone        string `gorm:"column:phone" json:"phone"`
 	Email        string `gorm:"column:email" json:"email"`
-	UpdateAt     string `gorm:"column:update_at" json:"update_at"`
+	UpdatedAt    string `gorm:"column:updated_at" json:"updated_at"`
 }
 
 type SupplierResponse struct {
@@ -32,6 +32,6 @@ type SupplierResponse struct {
 	SupplierDesc string `gorm:"column:supplier_desc" json:"supplier_desc"`
 	Phone        string `gorm:"column:phone" json:"phone"`
 	Email        string `gorm:"column:email" json:"email"`
-	CreateAt     string `gorm:"column:create_at" json:"create_at"`
-	UpdateAt     string `gorm:"column:update_at" json:"update_at"`
+	CreatedAt    string `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt    string `gorm:"column:updated_at" json:"updated_at"`
 }

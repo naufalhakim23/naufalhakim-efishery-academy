@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"warehouse-management-system-eFishery/handler"
+	handler "warehouse-management-system-eFishery/handler/warehouse"
 
 	"github.com/labstack/echo/v4"
 )

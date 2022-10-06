@@ -26,7 +26,7 @@ func (service SupplierAddressService) CreateSupplierAddress(supplierAddressReque
 		City:        supplierAddressRequest.City,
 		Province:    supplierAddressRequest.Province,
 		PostalCode:  supplierAddressRequest.PostalCode,
-		CreateAt:    time.Now().Format(time.RFC3339Nano),
+		CreatedAt:   time.Now().Format(time.RFC3339Nano),
 	}
 	supplierAddress, err := service.supplierAddressRepository.Store(sas)
 	if err != nil {
@@ -65,8 +65,8 @@ func (service SupplierAddressService) UpdateSupplierAddress(supplierAddressReque
 		City:        supplierAddressRequest.City,
 		Province:    supplierAddressRequest.Province,
 		PostalCode:  supplierAddressRequest.PostalCode,
-		CreateAt:    supplierAddress.CreateAt,
-		UpdateAt:    time.Now().Format(time.RFC3339Nano),
+		CreatedAt:   supplierAddress.CreatedAt,
+		UpdatedAt:   time.Now().Format(time.RFC3339Nano),
 	}
 	supplierAddress, err = service.supplierAddressRepository.Update(supplierAddressData)
 	if err != nil {
@@ -81,8 +81,8 @@ func (service SupplierAddressService) UpdateSupplierAddress(supplierAddressReque
 		City:        supplierAddress.City,
 		Province:    supplierAddress.Province,
 		PostalCode:  supplierAddress.PostalCode,
-		CreateAt:    supplierAddress.CreateAt,
-		UpdateAt:    supplierAddress.UpdateAt,
+		CreatedAt:   supplierAddress.CreatedAt,
+		UpdatedAt:   supplierAddress.UpdatedAt,
 	}
 	return supplierAddressResponse, nil
 }

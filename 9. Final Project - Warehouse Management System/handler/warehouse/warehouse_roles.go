@@ -5,7 +5,7 @@ import (
 	"strconv"
 	response "warehouse-management-system-eFishery/entity/responseJson"
 	entity "warehouse-management-system-eFishery/entity/warehouse"
-	"warehouse-management-system-eFishery/services"
+	services "warehouse-management-system-eFishery/services/warehouse"
 
 	"github.com/labstack/echo/v4"
 )
@@ -27,6 +27,13 @@ func (handler WarehouseRolesHandler) CreateWarehouseRoles(c echo.Context) error 
 			Status:  http.StatusInternalServerError,
 			Message: "Failed to create warehouse roles",
 			Error:   err.Error(),
+		})
+	}
+	if warehouseRoles.Role == "" || warehouseRoles.Description == "" {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create warehouse roles",
+			Error:   "Role or Description cannot be empty",
 		})
 	}
 	return c.JSON(http.StatusCreated, response.SuccessResponse{
@@ -92,6 +99,13 @@ func (handler WarehouseRolesHandler) UpdateWarehouseRoles(c echo.Context) error 
 			Error:   err.Error(),
 		})
 	}
+	if warehouseRoles.Role == "" || warehouseRoles.Description == "" {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create warehouse roles",
+			Error:   "Role or Description cannot be empty",
+		})
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to update warehouse roles",
@@ -107,6 +121,14 @@ func (handler WarehouseRolesHandler) DeleteWarehouseRoles(c echo.Context) error 
 			Status:  http.StatusInternalServerError,
 			Message: "Failed to delete warehouse roles",
 			Error:   err.Error(),
+		})
+	}
+	warehouseRole, _ := handler.service.GetAllWarehouseRoles()
+	if id > len(warehouseRole) || id < 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to delete warehouse roles",
+			Error:   "ID not found",
 		})
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	response "warehouse-management-system-eFishery/entity/responseJson"
 	entity "warehouse-management-system-eFishery/entity/warehouse"
-	"warehouse-management-system-eFishery/services"
+	services "warehouse-management-system-eFishery/services/warehouse"
 
 	"github.com/labstack/echo/v4"
 )
@@ -27,6 +27,13 @@ func (handler WarehouseAddressHandler) CreateWarehouseAddress(c echo.Context) er
 			Status:  http.StatusBadRequest,
 			Message: "Failed to create warehouse address",
 			Error:   err.Error(),
+		})
+	}
+	if warehouseAddress.ID == 0 || warehouseAddress.Region == "" || warehouseAddress.FullAddress == "" || warehouseAddress.City == "" || warehouseAddress.Province == "" || warehouseAddress.SubDistrict == "" || warehouseAddress.WarehouseID == 0 || warehouseAddress.PostalCode == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create supplier address",
+			Error:   "Please fill all the field",
 		})
 	}
 	return c.JSON(http.StatusCreated, response.SuccessResponse{
@@ -100,6 +107,13 @@ func (handler WarehouseAddressHandler) UpdateWarehouseAddress(c echo.Context) er
 			Error:   err.Error(),
 		})
 	}
+	if warehouseAddress.ID == 0 || warehouseAddress.Region == "" || warehouseAddress.FullAddress == "" || warehouseAddress.City == "" || warehouseAddress.Province == "" || warehouseAddress.SubDistrict == "" || warehouseAddress.WarehouseID == 0 || warehouseAddress.PostalCode == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create supplier address",
+			Error:   "Please fill all the field",
+		})
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to update warehouse address",
@@ -124,6 +138,16 @@ func (handler WarehouseAddressHandler) DeleteWarehouseAddress(c echo.Context) er
 			Message: "No data found",
 		})
 	}
+
+	warehouseAdd, _ := handler.service.GetAllAddress()
+	if id > len(warehouseAdd) || id < 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to delete supplier address",
+			Error:   "Supplier address not found",
+		})
+	}
+
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to delete warehouse",

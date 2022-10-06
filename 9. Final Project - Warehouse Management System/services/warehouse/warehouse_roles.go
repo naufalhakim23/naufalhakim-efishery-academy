@@ -2,7 +2,7 @@ package services
 
 import (
 	entity "warehouse-management-system-eFishery/entity/warehouse"
-	"warehouse-management-system-eFishery/repository"
+	repository "warehouse-management-system-eFishery/repository/warehouse"
 )
 
 type InterfaceWarehouseRolesService interface {

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	response "warehouse-management-system-eFishery/entity/responseJson"
 	entity "warehouse-management-system-eFishery/entity/warehouse"
-	"warehouse-management-system-eFishery/services"
+	services "warehouse-management-system-eFishery/services/warehouse"
 
 	"github.com/labstack/echo/v4"
 )
@@ -27,6 +27,13 @@ func (handler WarehouseCategoryHandler) CreateWarehouseCategory(c echo.Context) 
 			Status:  http.StatusBadRequest,
 			Message: "Failed to create warehouse category",
 			Error:   err.Error(),
+		})
+	}
+	if warehouseCategory.CategoryName == "" || warehouseCategory.CategoryName == " " {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create warehouse category",
+			Error:   "Category name cannot be empty",
 		})
 	}
 	return c.JSON(http.StatusCreated, response.SuccessResponse{
@@ -99,6 +106,13 @@ func (handler WarehouseCategoryHandler) UpdateWarehouseCategory(c echo.Context) 
 			Error:   err.Error(),
 		})
 	}
+	if warehouseCategory.ID == 0 || warehouseCategory.CategoryName == "" || warehouseCategory.CategoryName == " " {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to update warehouse category",
+			Error:   "Category name cannot be empty",
+		})
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to update warehouse category",
@@ -116,6 +130,21 @@ func (handler WarehouseCategoryHandler) DeleteWarehouseCategory(c echo.Context) 
 			Error:   err.Error(),
 		})
 	}
+	warehouseCategories, _ := handler.service.GetAllCategory()
+	if len(warehouseCategories) == 0 {
+		return c.JSON(http.StatusNotFound, response.ErrorResponse{
+			Status:  http.StatusNotFound,
+			Message: "No data found",
+		})
+	}
+
+	if id > len(warehouseCategories) || id < 0 {
+		return c.JSON(http.StatusNotFound, response.ErrorResponse{
+			Status:  http.StatusNotFound,
+			Message: "No data found",
+		})
+	}
+
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to delete warehouse category",
