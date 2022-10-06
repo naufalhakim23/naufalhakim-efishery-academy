@@ -5,7 +5,7 @@ import (
 	"strconv"
 	response "warehouse-management-system-eFishery/entity/responseJson"
 	entity "warehouse-management-system-eFishery/entity/warehouse"
-	"warehouse-management-system-eFishery/services"
+	services "warehouse-management-system-eFishery/services/warehouse"
 
 	"github.com/labstack/echo/v4"
 )
