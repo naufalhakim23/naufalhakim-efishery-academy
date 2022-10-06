@@ -2,13 +2,6 @@ package main
 
 import (
 	config "warehouse-management-system-eFishery/config/database"
-<<<<<<< HEAD
-=======
-	// handler "warehouse-management-system-eFishery/handler"
-	// repository "warehouse-management-system-eFishery/repository"
-	// routes "warehouse-management-system-eFishery/routes"
-	// services "warehouse-management-system-eFishery/services"
->>>>>>> 376269eea8d5fea2c9daa01c5d52d28f50c3a08f
 
 	handlerSupplier "warehouse-management-system-eFishery/handler/supplier"
 	repositorySupplier "warehouse-management-system-eFishery/repository/supplier"
