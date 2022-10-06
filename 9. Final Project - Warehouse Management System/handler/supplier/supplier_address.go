@@ -29,6 +29,14 @@ func (handler SupplierAddressHandler) CreateSupplierAddress(c echo.Context) erro
 			Error:   err.Error(),
 		})
 	}
+	if supplierAddress.ID == 0 || supplierAddress.SupplierID == 0 || supplierAddress.FullAddress == "" || supplierAddress.City == "" || supplierAddress.Province == "" || supplierAddress.SubDistrict == "" || supplierAddress.District == "" || supplierAddress.PostalCode == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create supplier address",
+			Error:   "Please fill all the field",
+		})
+	}
+
 	return c.JSON(http.StatusCreated, response.SuccessResponse{
 		Status:  http.StatusCreated,
 		Message: "Success to create supplier address",
@@ -84,6 +92,7 @@ func (handler SupplierAddressHandler) UpdateSupplierAddress(c echo.Context) erro
 			Error:   err.Error(),
 		})
 	}
+
 	id, _ := strconv.Atoi(c.Param("id"))
 	supplierAddress, err := handler.service.UpdateSupplierAddress(req, id)
 	if err != nil {
@@ -91,6 +100,13 @@ func (handler SupplierAddressHandler) UpdateSupplierAddress(c echo.Context) erro
 			Status:  http.StatusBadRequest,
 			Message: "Failed to update supplier address",
 			Error:   err.Error(),
+		})
+	}
+	if supplierAddress.ID == 0 || supplierAddress.SupplierID == 0 || supplierAddress.FullAddress == "" || supplierAddress.City == "" || supplierAddress.Province == "" || supplierAddress.SubDistrict == "" || supplierAddress.District == "" || supplierAddress.PostalCode == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create supplier address",
+			Error:   "Please fill all the field",
 		})
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
@@ -110,6 +126,23 @@ func (handler SupplierAddressHandler) DeleteSupplierAddress(c echo.Context) erro
 			Error:   err.Error(),
 		})
 	}
+
+	if id == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to delete supplier",
+		})
+	}
+
+	supplierAddress, _ := handler.service.GetAllSupplierAddress()
+	if id > len(supplierAddress) || id < 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to delete supplier address",
+			Error:   "Supplier address not found",
+		})
+	}
+
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to delete supplier address",

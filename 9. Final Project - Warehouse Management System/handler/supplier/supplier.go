@@ -29,6 +29,14 @@ func (handler *SupplierHandler) CreateSupplier(c echo.Context) error {
 			Error:   err.Error(),
 		})
 	}
+	if supplier.ID == 0 || supplier.Email == "" || supplier.SupplierName == "" || supplier.Phone == "" || supplier.SupplierDesc == "" {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create supplier",
+			Error:   "Please fill all the field",
+		})
+	}
+
 	return c.JSON(http.StatusCreated, response.SuccessResponse{
 		Status:  http.StatusCreated,
 		Message: "Success to create supplier",
@@ -51,6 +59,7 @@ func (handler *SupplierHandler) GetAllSupplier(c echo.Context) error {
 			Message: "No data found",
 		})
 	}
+
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to get all list of e-Fishery Suppliers",
@@ -87,6 +96,15 @@ func (hanndler *SupplierHandler) UpdateSupplier(c echo.Context) error {
 			Error:   err.Error(),
 		})
 	}
+
+	if supplier.ID == 0 || supplier.Email == "" || supplier.SupplierName == "" || supplier.Phone == "" || supplier.SupplierDesc == "" {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to update supplier",
+			Error:   "Please fill all the field",
+		})
+	}
+
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to update supplier",
@@ -104,6 +122,21 @@ func (handler *SupplierHandler) DeleteSupplier(c echo.Context) error {
 			Error:   err.Error(),
 		})
 	}
+	if id == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to delete supplier",
+		})
+	}
+	suppliers, _ := handler.service.GetAllSupplier()
+	if id > len(suppliers) || id < 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to delete supplier",
+			Error:   "Supplier not found",
+		})
+	}
+
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to delete supplier",
