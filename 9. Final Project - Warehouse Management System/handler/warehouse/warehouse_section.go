@@ -29,6 +29,13 @@ func (handler WarehouseSectionHandler) CreateWarehouseSection(c echo.Context) er
 			Error:   err.Error(),
 		})
 	}
+	if warehouseSection.InventoryAisle == 0 || warehouseSection.InventoryRow == 0 || warehouseSection.InventorySection == 0 || warehouseSection.InventoryTier == 0 || warehouseSection.WarehouseID == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create warehouse section",
+			Error:   "Please fill all the fields",
+		})
+	}
 	return c.JSON(http.StatusCreated, response.SuccessResponse{
 		Status:  http.StatusCreated,
 		Message: "Success to create warehouse section",
@@ -93,6 +100,13 @@ func (handler WarehouseSectionHandler) UpdateWarehouseSection(c echo.Context) er
 			Error:   err.Error(),
 		})
 	}
+	if warehouseSection.InventoryAisle == 0 || warehouseSection.InventoryRow == 0 || warehouseSection.InventorySection == 0 || warehouseSection.InventoryTier == 0 || warehouseSection.WarehouseID == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create warehouse section",
+			Error:   "Please fill all the fields",
+		})
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to update e-Fishery Warehouse Section",
@@ -108,6 +122,14 @@ func (handler WarehouseSectionHandler) DeleteWarehouseSection(c echo.Context) er
 			Status:  http.StatusBadRequest,
 			Message: "Failed to delete e-Fishery Warehouse Section",
 			Error:   err.Error(),
+		})
+	}
+	warehouseSec, _ := handler.service.GetAllWarehouseSection()
+	if id > len(warehouseSec) || id < 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to delete e-Fishery Warehouse Section",
+			Error:   "ID not found",
 		})
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{

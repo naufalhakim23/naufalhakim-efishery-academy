@@ -30,6 +30,13 @@ func (handler WarehouseWorkerHandler) CreateWarehouseWorker(c echo.Context) erro
 			Error:   err.Error(),
 		})
 	}
+	if warehouseWorker.Email == "" || warehouseWorker.FirstName == "" || warehouseWorker.LastName == "" || warehouseWorker.Phone == "" || warehouseWorker.RolesId == 0 || warehouseWorker.WarehouseId == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create supplier address",
+			Error:   "Please fill all the field",
+		})
+	}
 	return c.JSON(http.StatusCreated, response.SuccessResponse{
 		Status:  http.StatusCreated,
 		Message: "Success to create warehouse worker",
@@ -80,6 +87,13 @@ func (handler WarehouseWorkerHandler) UpdateWarehouseWorker(c echo.Context) erro
 			Status:  http.StatusBadRequest,
 			Message: "Failed to update warehouse worker",
 			Error:   err.Error(),
+		})
+	}
+	if warehouseWorker.Email == "" || warehouseWorker.FirstName == "" || warehouseWorker.LastName == "" || warehouseWorker.Phone == "" || warehouseWorker.RolesId == 0 || warehouseWorker.WarehouseId == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create supplier address",
+			Error:   "Please fill all the field",
 		})
 	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{

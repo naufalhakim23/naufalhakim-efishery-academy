@@ -29,6 +29,13 @@ func (handler WarehouseOrdersHandler) CreateWarehouseOrder(c echo.Context) error
 			Error:   err.Error(),
 		})
 	}
+	if warehouseOrder.OrderId == 0 || warehouseOrder.ProductMark == "" || warehouseOrder.ProductStatus == "" || warehouseOrder.WorkerUUID == "" || warehouseOrder.WarehouseId == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create warehouse order",
+			Error:   "Please fill all the fields",
+		})
+	}
 	return c.JSON(http.StatusCreated, response.SuccessResponse{
 		Status:  http.StatusCreated,
 		Message: "Success to create warehouse order",
@@ -115,6 +122,13 @@ func (handler WarehouseOrdersHandler) UpdateWarehouseOrderById(c echo.Context) e
 			Error:   err.Error(),
 		})
 	}
+	if warehouseOrder.OrderId == 0 || warehouseOrder.ProductMark == "" || warehouseOrder.ProductStatus == "" || warehouseOrder.WorkerUUID == "" || warehouseOrder.WarehouseId == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to update warehouse order by id",
+			Error:   "Please fill all the fields",
+		})
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to update warehouse order by id",
@@ -132,6 +146,14 @@ func (handler WarehouseOrdersHandler) DeleteWarehouseOrderById(c echo.Context) e
 			Error:   err.Error(),
 		})
 	}
+	warehouseOrd, _ := handler.warehouseOrderService.FindAllWarehouseOrder()
+	if id > len(warehouseOrd) || id < 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to update warehouse order by id",
+		})
+	}
+
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to delete warehouse order by id",

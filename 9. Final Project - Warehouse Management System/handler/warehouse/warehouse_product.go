@@ -29,6 +29,13 @@ func (handler WarehouseProductHandler) CreateWarehouseProduct(c echo.Context) er
 			Error:   err.Error(),
 		})
 	}
+	if warehouseProduct.SKU == "" || warehouseProduct.ProductName == "" || warehouseProduct.ProductDesc == "" || warehouseProduct.Price == 0 || warehouseProduct.Stock == 0 || warehouseProduct.Weight == 0 || warehouseProduct.WarehouseID == 0 || warehouseProduct.SectionPlaceID == 0 || warehouseProduct.SupplierID == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create warehouse product",
+			Error:   err.Error(),
+		})
+	}
 	return c.JSON(http.StatusCreated, response.SuccessResponse{
 		Status:  http.StatusCreated,
 		Message: "Success to create warehouse product",
@@ -142,6 +149,13 @@ func (handler WarehouseProductHandler) UpdateWarehouseProduct(c echo.Context) er
 			Error:   err.Error(),
 		})
 	}
+	if warehouseProduct.SKU == "" || warehouseProduct.ProductName == "" || warehouseProduct.ProductDesc == "" || warehouseProduct.Price == 0 || warehouseProduct.Stock == 0 || warehouseProduct.Weight == 0 || warehouseProduct.WarehouseID == 0 || warehouseProduct.SectionPlaceID == 0 || warehouseProduct.SupplierID == 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to create warehouse product",
+			Error:   err.Error(),
+		})
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to update warehouse product",
@@ -154,6 +168,14 @@ func (handler WarehouseProductHandler) DeleteWarehouseProduct(c echo.Context) er
 	id, _ := strconv.Atoi(c.Param("id"))
 	err := handler.service.DeleteWarehouseProduct(id)
 	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to delete warehouse product",
+			Error:   err.Error(),
+		})
+	}
+	warehouseProduct, _ := handler.service.GetAllWarehouseProduct()
+	if id > len(warehouseProduct) || id < 0 {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Status:  http.StatusBadRequest,
 			Message: "Failed to delete warehouse product",
