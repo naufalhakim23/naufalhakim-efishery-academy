@@ -40,17 +40,12 @@ func (wor WarehouseOrderRepository) Store(warehouseOrder entity.WarehouseOrders)
 // Find all warehouse order data from database
 func (wor WarehouseOrderRepository) FindAll() ([]entity.WarehouseOrders, error) {
 	var warehouseOrders []entity.WarehouseOrders
-	var warehouseWorkers []entity.WarehouseWorkers
 	var warehouse []entity.Warehouse
 	if err := wor.db.Find(&warehouseOrders).Error; err != nil {
 		return warehouseOrders, err
 	}
 
-	// Find from uuid of warehouseworkers from warehouse order still error
-	if err := wor.db.Where("uuid = ?", warehouseOrders[0].WorkerUUID).Find(&warehouseWorkers).Error; err != nil {
-		return warehouseOrders, err
-	}
-
+	// Find from id of warehouse from warehouse order
 	for i := 0; i < len(warehouseOrders); i++ {
 		if err := wor.db.Where("id = ?", warehouseOrders[i].WarehouseId).Find(&warehouse).Error; err != nil {
 			return warehouseOrders, err

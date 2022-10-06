@@ -8,7 +8,7 @@ import (
 
 type InterfaceWarehouseOrderService interface {
 	CreateWarehouseOrder(entity.CreateWarehouseOrders) (entity.WarehouseOrders, error)
-	FindAllWarehouseOrder() ([]entity.WarehouseOrders, error)
+	FindAllWarehouseOrder() ([]entity.WarehouseOrdersResponse, error)
 	FindWarehouseOrderById(int) (entity.WarehouseOrders, error)
 	UpdateWarehouseOrderById(int, entity.UpdateWarehouseOrders) (entity.WarehouseOrders, error)
 	FindWarehouseOrderByProductStatus(productStatus string) ([]entity.WarehouseOrders, error)
@@ -41,12 +41,23 @@ func (service WarehouseOrderService) CreateWarehouseOrder(warehouseReq entity.Cr
 }
 
 // // Find all warehouse order data from database
-func (service WarehouseOrderService) FindAllWarehouseOrder() ([]entity.WarehouseOrders, error) {
+func (service WarehouseOrderService) FindAllWarehouseOrder() ([]entity.WarehouseOrdersResponse, error) {
 	warehouseOrders, err := service.warehouseOrderRepository.FindAll()
 	if err != nil {
-		return warehouseOrders, err
+		return nil, err
 	}
-	return warehouseOrders, nil
+	var warehouseOrdersResponse []entity.WarehouseOrdersResponse
+	for _, warehouseOrder := range warehouseOrders {
+		warehouseOrdersResponse = append(warehouseOrdersResponse, entity.WarehouseOrdersResponse{
+			WorkerUUID:    warehouseOrder.WorkerUUID,
+			WarehouseId:   warehouseOrder.WarehouseId,
+			Warehouse:     warehouseOrder.Warehouse,
+			OrderId:       warehouseOrder.OrderId,
+			ProductStatus: warehouseOrder.ProductStatus,
+			ProductMark:   warehouseOrder.ProductMark,
+		})
+	}
+	return warehouseOrdersResponse, nil
 }
 
 // Find warehouse order data by id from database

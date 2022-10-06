@@ -32,9 +32,10 @@ type UpdateWarehouseOrders struct {
 }
 
 type WarehouseOrdersResponse struct {
-	WorkerUUID    string `gorm:"column:worker_uuid" json:"worker_id"`
-	WarehouseId   int    `gorm:"column:warehouse_id" json:"warehouse_id"`
-	OrderId       int    `gorm:"column:order_id" json:"order_id"`
-	ProductStatus string `gorm:"column:product_status" json:"product_status"`
-	ProductMark   string `gorm:"column:product_mark" json:"product_mark"`
+	WorkerUUID    string    `gorm:"column:worker_uuid" json:"worker_id"`
+	WarehouseId   int       `gorm:"column:warehouse_id" json:"warehouse_id"`
+	Warehouse     Warehouse `gorm:"foreignKey:WarehouseId"`
+	OrderId       int       `gorm:"column:order_id" json:"order_id"`
+	ProductStatus string    `gorm:"column:product_status" json:"product_status"`
+	ProductMark   string    `gorm:"column:product_mark" json:"product_mark"`
 }
