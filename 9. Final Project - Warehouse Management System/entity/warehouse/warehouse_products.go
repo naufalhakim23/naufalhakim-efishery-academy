@@ -22,7 +22,7 @@ type WarehouseProducts struct {
 	SupplierID          int                 `gorm:"column:supplier_id" json:"supplier_id"`
 	Supplier            entity.Supplier     `gorm:"foreignKey:SupplierID" `
 	CreatedAt           string              `gorm:"column:created_at" json:"created_at"`
-	UpdatedAt           string              `gorm:"column:update_at" json:"update_at"`
+	UpdatedAt           string              `gorm:"column:updated_at" json:"updated_at"`
 }
 
 type CreateWarehouseProducts struct {
@@ -60,7 +60,7 @@ type UpdateWarehouseProducts struct {
 	WarehouseSection    WarehouseSection    `gorm:"foreignKey:SectionPlaceID;references:ID"`
 	SupplierID          int                 `gorm:"column:supplier_id" json:"supplier_id"`
 	Supplier            entity.Supplier     `gorm:"foreignKey:SupplierID" `
-	UpdatedAt           string              `gorm:"column:update_at" json:"update_at"`
+	UpdatedAt           string              `gorm:"column:updated_at" json:"updated_at"`
 }
 
 type WarehouseProductsResponse struct {
@@ -80,5 +80,5 @@ type WarehouseProductsResponse struct {
 	SupplierID          int                 `gorm:"column:supplier_id" json:"supplier_id"`
 	Supplier            entity.Supplier     `gorm:"foreignKey:SupplierID" `
 	CreatedAt           string              `gorm:"column:created_at" json:"created_at"`
-	UpdatedAt           string              `gorm:"column:update_at" json:"update_at"`
+	UpdatedAt           string              `gorm:"column:updated_at" json:"updated_at"`
 }

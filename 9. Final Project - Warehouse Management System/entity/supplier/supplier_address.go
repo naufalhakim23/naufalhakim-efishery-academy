@@ -10,8 +10,8 @@ type SupplierAddress struct {
 	City        string   `gorm:"column:city" json:"city"`
 	Province    string   `gorm:"column:province" json:"province"`
 	PostalCode  int      `gorm:"column:postal_code" json:"postal_code"`
-	CreateAt    string   `gorm:"column:create_at" json:"create_at"`
-	UpdateAt    string   `gorm:"column:update_at" json:"update_at"`
+	CreatedAt   string   `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt   string   `gorm:"column:updated_at" json:"updated_at"`
 }
 
 type CreateSupplierAddress struct {
@@ -23,7 +23,7 @@ type CreateSupplierAddress struct {
 	City        string   `gorm:"column:city" json:"city"`
 	Province    string   `gorm:"column:province" json:"province"`
 	PostalCode  int      `gorm:"column:postal_code" json:"postal_code"`
-	CreateAt    string   `gorm:"column:create_at" json:"create_at"`
+	CreatedAt   string   `gorm:"column:created_at" json:"created_at"`
 }
 type UpdateSupplierAddress struct {
 	SupplierID  int      `gorm:"column:supplier_id" json:"supplier_id"`
@@ -34,7 +34,7 @@ type UpdateSupplierAddress struct {
 	City        string   `gorm:"column:city" json:"city"`
 	Province    string   `gorm:"column:province" json:"province"`
 	PostalCode  int      `gorm:"column:postal_code" json:"postal_code"`
-	UpdateAt    string   `gorm:"column:update_at" json:"update_at"`
+	UpdatedAt   string   `gorm:"column:updated_at" json:"updated_at"`
 }
 
 type SupplierAddressResponse struct {
@@ -47,6 +47,6 @@ type SupplierAddressResponse struct {
 	City        string   `gorm:"column:city" json:"city"`
 	Province    string   `gorm:"column:province" json:"province"`
 	PostalCode  int      `gorm:"column:postal_code" json:"postal_code"`
-	CreateAt    string   `gorm:"column:create_at" json:"create_at"`
-	UpdateAt    string   `gorm:"column:update_at" json:"update_at"`
+	CreatedAt   string   `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt   string   `gorm:"column:updated_at" json:"updated_at"`
 }

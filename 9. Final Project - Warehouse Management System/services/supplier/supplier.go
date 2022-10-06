@@ -28,7 +28,7 @@ func (service SupplierService) CreateSupplier(supplier entity.Supplier) (entity.
 		SupplierDesc: supplier.SupplierDesc,
 		Phone:        supplier.Phone,
 		Email:        supplier.Email,
-		CreateAt:     time.Now().Format(time.RFC3339Nano),
+		CreatedAt:    time.Now().Format(time.RFC3339Nano),
 	}
 	supplier, err := service.supplierRepository.Store(sup)
 	if err != nil {
@@ -64,8 +64,8 @@ func (service SupplierService) UpdateSupplier(id int, supplierReq entity.UpdateS
 		SupplierDesc: supplierReq.SupplierDesc,
 		Phone:        supplierReq.Phone,
 		Email:        supplierReq.Email,
-		CreateAt:     supplier.CreateAt,
-		UpdateAt:     time.Now().Format(time.RFC3339Nano),
+		CreatedAt:    supplier.CreatedAt,
+		UpdatedAt:    time.Now().Format(time.RFC3339Nano),
 	}
 	supplier, err = service.supplierRepository.Update(s)
 	if err != nil {

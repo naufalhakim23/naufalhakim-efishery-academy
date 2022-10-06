@@ -7,8 +7,8 @@ type WarehouseAuth struct {
 	Email            string           `gorm:"column:email" json:"email"`
 	Password         string           `gorm:"column:password" json:"password"`
 	Token            string           `gorm:"column:token" json:"token"`
-	CreatedAt        string           `gorm:"column:create_at" json:"create_at"`
-	UpdatedAt        string           `gorm:"column:update_at" json:"update_at"`
+	CreatedAt        string           `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt        string           `gorm:"column:updated_at" json:"updated_at"`
 }
 type CreateWarehouseAuth struct {
 	//  adding uuid from worker auth gorm
