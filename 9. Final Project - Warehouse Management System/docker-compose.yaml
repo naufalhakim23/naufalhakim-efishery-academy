@@ -1,0 +1,55 @@
+
+version: '3.9'
+
+services:
+  # Main postgresql database
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - efishery_wms_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  # The main service
+  efisherywms:
+    container_name: efisherywms
+    image: hkimm/efisherywms:latest
+    build: .
+    ports:
+      - 8080:8080
+    restart: on-failure
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=postgres
+      - DB_SSLMODE=disable
+      - DB_TIMEZONE=Asia/Jakarta
+    volumes:
+      - .:/app
+    networks:
+      - efishery_wms_network
+    depends_on:
+      postgres :
+        condition: service_healthy
+
+networks:
+  efishery_wms_network:
+    name: efishery_wms_network
+volumes:
+  postgres:
+  efisherywms:
+
