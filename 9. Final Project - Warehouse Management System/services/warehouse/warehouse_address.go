@@ -3,7 +3,7 @@ package services
 import (
 	"time"
 	entity "warehouse-management-system-eFishery/entity/warehouse"
-	"warehouse-management-system-eFishery/repository"
+	repository "warehouse-management-system-eFishery/repository/warehouse"
 )
 
 type InterfaceWarehouseAddressService interface {
