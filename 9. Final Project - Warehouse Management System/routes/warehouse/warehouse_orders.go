@@ -10,8 +10,8 @@ func RouteOreders(e *echo.Echo, warehouseOrderHandler *handler.WarehouseOrdersHa
 	e.POST("/api/warehouse/order", warehouseOrderHandler.CreateWarehouseOrder)
 	e.GET("/api/warehouse/order", warehouseOrderHandler.GetAllWarehouseOrder)
 	e.GET("/api/warehouse/order/:id", warehouseOrderHandler.GetWarehouseOrderById)
-	e.GET("/api/warehouse/order/:product_status", warehouseOrderHandler.GetWarehouseOrderByProductStatus)
-	e.GET("/api/warehouse/order/:product_mark", warehouseOrderHandler.GetWarehouseOrderByProductMark)
+	e.GET("/api/warehouse/order/status/:product_status", warehouseOrderHandler.GetWarehouseOrderByProductStatus)
+	e.GET("/api/warehouse/order/mark/:product_mark", warehouseOrderHandler.GetWarehouseOrderByProductMark)
 	e.PUT("/api/warehouse/order/:id", warehouseOrderHandler.UpdateWarehouseOrderById)
 	e.DELETE("/api/warehouse/order/:id", warehouseOrderHandler.DeleteWarehouseOrderById)
 }
