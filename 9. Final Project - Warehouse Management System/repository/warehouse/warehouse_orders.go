@@ -59,10 +59,10 @@ func (wor WarehouseOrderRepository) FindAll() ([]entity.WarehouseOrders, error) 
 func (wor WarehouseOrderRepository) FindByID(id int) (entity.WarehouseOrders, error) {
 	var warehouseOrders entity.WarehouseOrders
 	var warehouse []entity.Warehouse
-	if err := wor.db.Where("id = ?", id).Find(&warehouseOrders).Error; err != nil {
+	if err := wor.db.Where("id = ?", id).First(&warehouseOrders).Error; err != nil {
 		return warehouseOrders, err
 	}
-	if err := wor.db.Where("id = ?", warehouseOrders.WarehouseId).Find(&warehouse).Error; err != nil {
+	if err := wor.db.Where("id = ?", warehouseOrders.WarehouseId).First(&warehouse).Error; err != nil {
 		return warehouseOrders, err
 	}
 	warehouseOrders.Warehouse = warehouse[0]
