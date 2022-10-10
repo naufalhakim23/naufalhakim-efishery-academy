@@ -69,6 +69,14 @@ func (handler WarehouseOrdersHandler) GetWarehouseOrderById(c echo.Context) erro
 			Error:   err.Error(),
 		})
 	}
+	warehouseOrd, _ := handler.warehouseOrderService.FindAllWarehouseOrder()
+	if id > len(warehouseOrd) || id < 0 {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to update warehouse order by id",
+			Error:   "Id not found",
+		})
+	}
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to get warehouse order by id",

@@ -60,14 +60,13 @@ func (wwr WarehouseWorkersRepository) FindByUUID(uuid string) (entity.WarehouseW
 
 // Update warehouse workers data by UUID
 func (wwr WarehouseWorkersRepository) UpdateByUUID(uuid string, warehouseWorkers entity.WarehouseWorkers) (entity.WarehouseWorkers, error) {
-	var warehouseWorker entity.WarehouseWorkers
-	if err := wwr.db.Where("uuid = ?", uuid).Find(&warehouseWorker).Error; err != nil {
-		return entity.WarehouseWorkers{}, err
+	if err := wwr.db.Where("uuid = ?", uuid).First(&warehouseWorkers).Error; err != nil {
+		return warehouseWorkers, err
 	}
-	if err := wwr.db.Model(&warehouseWorker).Updates(warehouseWorkers).Error; err != nil {
-		return entity.WarehouseWorkers{}, err
+	if err := wwr.db.Save(&warehouseWorkers).Error; err != nil {
+		return warehouseWorkers, err
 	}
-	return warehouseWorker, nil
+	return warehouseWorkers, nil
 }
 
 // Delete warehouse workers data by UUID

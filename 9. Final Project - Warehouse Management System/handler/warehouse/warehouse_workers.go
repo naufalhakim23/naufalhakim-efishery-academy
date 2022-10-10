@@ -66,10 +66,26 @@ func (handler WarehouseWorkerHandler) GetWarehouseWorkerByUUID(c echo.Context) e
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Status:  http.StatusBadRequest,
-			Message: "Failed to get warehouse worker by uuid",
+			Message: "Failed to get warehouse worker",
 			Error:   err.Error(),
 		})
 	}
+
+	if uuid == "" {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to get warehouse worker",
+			Error:   "Please fill all the field",
+		})
+	}
+	if uuid != warehouseWorker.UUID {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to get warehouse worker",
+			Error:   "Worker not found",
+		})
+	}
+
 	return c.JSON(http.StatusOK, response.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "Success to get warehouse worker by uuid",
@@ -87,6 +103,13 @@ func (handler WarehouseWorkerHandler) UpdateWarehouseWorker(c echo.Context) erro
 			Status:  http.StatusBadRequest,
 			Message: "Failed to update warehouse worker",
 			Error:   err.Error(),
+		})
+	}
+	if uuid != warehouseWorker.UUID {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to get warehouse worker",
+			Error:   "Worker not found",
 		})
 	}
 	if warehouseWorker.Email == "" || warehouseWorker.FirstName == "" || warehouseWorker.LastName == "" || warehouseWorker.Phone == "" || warehouseWorker.RolesId == 0 || warehouseWorker.WarehouseId == 0 {
