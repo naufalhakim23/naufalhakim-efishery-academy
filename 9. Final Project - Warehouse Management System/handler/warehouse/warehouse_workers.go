@@ -105,6 +105,13 @@ func (handler WarehouseWorkerHandler) UpdateWarehouseWorker(c echo.Context) erro
 			Error:   err.Error(),
 		})
 	}
+	if uuid != warehouseWorker.UUID {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Status:  http.StatusBadRequest,
+			Message: "Failed to get warehouse worker",
+			Error:   "Worker not found",
+		})
+	}
 	if warehouseWorker.Email == "" || warehouseWorker.FirstName == "" || warehouseWorker.LastName == "" || warehouseWorker.Phone == "" || warehouseWorker.RolesId == 0 || warehouseWorker.WarehouseId == 0 {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Status:  http.StatusBadRequest,
