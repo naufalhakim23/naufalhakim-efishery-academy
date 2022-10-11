@@ -34,7 +34,6 @@ type UpdateWarehouseOrders struct {
 type WarehouseOrdersResponse struct {
 	ID            int       `gorm:"primaryKey;column:id" json:"id"`
 	WorkerUUID    string    `gorm:"column:worker_uuid" json:"worker_id"`
-	WarehouseId   int       `gorm:"column:warehouse_id" json:"warehouse_id"`
 	Warehouse     Warehouse `gorm:"foreignKey:WarehouseId"`
 	OrderId       int       `gorm:"column:order_id" json:"order_id"`
 	ProductStatus string    `gorm:"column:product_status" json:"product_status"`
