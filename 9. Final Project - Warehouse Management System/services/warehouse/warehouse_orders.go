@@ -27,7 +27,6 @@ func NewWarehouseOrderService(warehouseOrderRepository repository.InterfaceWareh
 func (service WarehouseOrderService) CreateWarehouseOrder(warehouseReq entity.CreateWarehouseOrders) (entity.WarehouseOrdersResponse, error) {
 	wos := entity.WarehouseOrders{
 		WorkerUUID:    warehouseReq.WorkerUUID,
-		WarehouseId:   warehouseReq.WarehouseId,
 		OrderId:       warehouseReq.OrderId,
 		ProductStatus: warehouseReq.ProductStatus,
 		ProductMark:   warehouseReq.ProductMark,
@@ -37,7 +36,6 @@ func (service WarehouseOrderService) CreateWarehouseOrder(warehouseReq entity.Cr
 	warehouseOrdersResponse := entity.WarehouseOrdersResponse{
 		ID:            warehouseOrder.ID,
 		WorkerUUID:    warehouseOrder.WorkerUUID,
-		WarehouseId:   warehouseOrder.WarehouseId,
 		Warehouse:     warehouseOrder.Warehouse,
 		OrderId:       warehouseOrder.OrderId,
 		ProductStatus: warehouseOrder.ProductStatus,
@@ -62,7 +60,6 @@ func (service WarehouseOrderService) FindAllWarehouseOrder() ([]entity.Warehouse
 		warehouseOrdersResponse = append(warehouseOrdersResponse, entity.WarehouseOrdersResponse{
 			ID:            warehouseOrder.ID,
 			WorkerUUID:    warehouseOrder.WorkerUUID,
-			WarehouseId:   warehouseOrder.WarehouseId,
 			Warehouse:     warehouseOrder.Warehouse,
 			OrderId:       warehouseOrder.OrderId,
 			ProductStatus: warehouseOrder.ProductStatus,
@@ -83,7 +80,6 @@ func (service WarehouseOrderService) FindWarehouseOrderById(id int) (entity.Ware
 	warehouseOrdersResponse := entity.WarehouseOrdersResponse{
 		ID:            warehouseOrder.ID,
 		WorkerUUID:    warehouseOrder.WorkerUUID,
-		WarehouseId:   warehouseOrder.WarehouseId,
 		Warehouse:     warehouseOrder.Warehouse,
 		OrderId:       warehouseOrder.OrderId,
 		ProductStatus: warehouseOrder.ProductStatus,
@@ -106,7 +102,6 @@ func (service WarehouseOrderService) FindWarehouseOrderByProductStatus(productSt
 		warehouseOrdersResponse = append(warehouseOrdersResponse, entity.WarehouseOrdersResponse{
 			ID:            warehouseOrder.ID,
 			WorkerUUID:    warehouseOrder.WorkerUUID,
-			WarehouseId:   warehouseOrder.WarehouseId,
 			Warehouse:     warehouseOrder.Warehouse,
 			OrderId:       warehouseOrder.OrderId,
 			ProductStatus: warehouseOrder.ProductStatus,
@@ -129,7 +124,6 @@ func (service WarehouseOrderService) FindWarehouseOrderByProductMark(productMark
 		warehouseOrdersResponse = append(warehouseOrdersResponse, entity.WarehouseOrdersResponse{
 			ID:            warehouseOrder.ID,
 			WorkerUUID:    warehouseOrder.WorkerUUID,
-			WarehouseId:   warehouseOrder.WarehouseId,
 			Warehouse:     warehouseOrder.Warehouse,
 			OrderId:       warehouseOrder.OrderId,
 			ProductStatus: warehouseOrder.ProductStatus,
@@ -145,7 +139,6 @@ func (service WarehouseOrderService) FindWarehouseOrderByProductMark(productMark
 func (service WarehouseOrderService) UpdateWarehouseOrderById(id int, warehouseReq entity.UpdateWarehouseOrders) (entity.WarehouseOrdersResponse, error) {
 	wos := entity.WarehouseOrders{
 		WorkerUUID:    warehouseReq.WorkerUUID,
-		WarehouseId:   warehouseReq.WarehouseId,
 		OrderId:       warehouseReq.OrderId,
 		ProductStatus: warehouseReq.ProductStatus,
 		ProductMark:   warehouseReq.ProductMark,
@@ -155,7 +148,6 @@ func (service WarehouseOrderService) UpdateWarehouseOrderById(id int, warehouseR
 	warehouseOrdersResponse := entity.WarehouseOrdersResponse{
 		ID:            warehouseOrder.ID,
 		WorkerUUID:    warehouseOrder.WorkerUUID,
-		WarehouseId:   warehouseOrder.WarehouseId,
 		Warehouse:     warehouseOrder.Warehouse,
 		OrderId:       warehouseOrder.OrderId,
 		ProductStatus: warehouseOrder.ProductStatus,

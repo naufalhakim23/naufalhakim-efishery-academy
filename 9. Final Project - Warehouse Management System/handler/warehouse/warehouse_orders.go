@@ -29,7 +29,7 @@ func (handler WarehouseOrdersHandler) CreateWarehouseOrder(c echo.Context) error
 			Error:   err.Error(),
 		})
 	}
-	if warehouseOrder.OrderId == 0 || warehouseOrder.ProductMark == "" || warehouseOrder.ProductStatus == "" || warehouseOrder.WorkerUUID == "" || warehouseOrder.WarehouseId == 0 {
+	if warehouseOrder.OrderId == 0 || warehouseOrder.ProductMark == "" || warehouseOrder.ProductStatus == "" || warehouseOrder.WorkerUUID == "" {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Status:  http.StatusBadRequest,
 			Message: "Failed to create warehouse order",
@@ -130,7 +130,7 @@ func (handler WarehouseOrdersHandler) UpdateWarehouseOrderById(c echo.Context) e
 			Error:   err.Error(),
 		})
 	}
-	if warehouseOrder.OrderId == 0 || warehouseOrder.ProductMark == "" || warehouseOrder.ProductStatus == "" || warehouseOrder.WorkerUUID == "" || warehouseOrder.WarehouseId == 0 {
+	if warehouseOrder.OrderId == 0 || warehouseOrder.ProductMark == "" || warehouseOrder.ProductStatus == "" {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Status:  http.StatusBadRequest,
 			Message: "Failed to update warehouse order by id",
